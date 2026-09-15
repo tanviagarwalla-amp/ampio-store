@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^2.45.8",
+    "@amplitude/engagement-browser": "^1.0.12",
     "@amplitude/plugin-session-replay-browser": "^1.35.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",

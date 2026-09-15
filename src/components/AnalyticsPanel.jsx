@@ -120,7 +120,8 @@ export default function AnalyticsPanel() {
         <div className="status">
           {status.initialized ? (
             <>
-              Connected · {status.apiKey} · Session Replay {status.sessionReplay ? 'on' : 'off'}
+              Connected · {status.apiKey} · Session Replay {status.sessionReplay ? 'on' : 'off'} · Guides &
+              Surveys {status.engagement ? 'on' : 'off'}
             </>
           ) : (
             <>Not connected — events below are captured locally but not sent.</>
