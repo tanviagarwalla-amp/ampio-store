@@ -69,7 +69,7 @@ export default function Home() {
           </h1>
           <p>
             Over 30 pieces across Indian wear, western wear, footwear and accessories — every colourway
-            rendered, every size tracked. Up to 55% off this week.
+            rendered, every size tracked. Up to 50% off this week.
           </p>
           <div className="hero-cta">
             <Link className="btn btn-primary" to="/c/women">
