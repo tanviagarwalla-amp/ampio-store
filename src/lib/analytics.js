@@ -19,6 +19,7 @@ const APP_VERSION = '1.0.0';
 let initialized = false;
 let activeKey = null;
 let replayEnabled = false;
+let engagementEnabled = false;
 
 /* ------------------------------------------------------------- event log */
 
@@ -68,6 +69,7 @@ export function analyticsStatus() {
     apiKey: activeKey ? `${activeKey.slice(0, 6)}…${activeKey.slice(-4)}` : null,
     keySource: import.meta.env.VITE_AMPLITUDE_API_KEY ? 'env' : storedApiKey() ? 'browser' : 'none',
     sessionReplay: replayEnabled,
+    engagement: engagementEnabled,
   };
 }
 
@@ -114,6 +116,17 @@ export async function initAnalytics() {
     } catch (err) {
       record('system', 'Session Replay plugin failed to load', { error: String(err) });
     }
+  }
+
+  // Guides & Surveys (Amplitude "Engagement"). Must be added before init() —
+  // that lets the Analytics SDK drive the plugin's own boot sequence so it
+  // picks up the right user/session. No separate engagement.boot() call needed.
+  try {
+    const { plugin: engagementPlugin } = await import('@amplitude/engagement-browser');
+    amplitude.add(engagementPlugin());
+    engagementEnabled = true;
+  } catch (err) {
+    record('system', 'Guides & Surveys plugin failed to load', { error: String(err) });
   }
 
   amplitude.init(key, {
