@@ -59,23 +59,24 @@ export default function Home() {
 
   return (
     <>
-      <section className="hero">
+      {/* data-test-id values are stable selectors for Web Experimentation — don't rename casually */}
+      <section className="hero" data-test-id="home-hero">
         <div className="hero-copy">
           <span className="eyebrow">Autumn / Winter Edit</span>
-          <h1>
+          <h1 data-test-id="hero-headline">
             Wardrobe staples,
             <br />
             priced for the everyday.
           </h1>
-          <p>
+          <p data-test-id="hero-subcopy">
             Over 30 pieces across Indian wear, western wear, footwear and accessories — every colourway
             rendered, every size tracked. Up to 50% off this week.
           </p>
           <div className="hero-cta">
-            <Link className="btn btn-primary" to="/c/women">
+            <Link className="btn btn-primary" to="/c/women" data-test-id="hero-cta-women">
               Shop Women
             </Link>
-            <Link className="btn btn-outline" to="/c/men">
+            <Link className="btn btn-outline" to="/c/men" data-test-id="hero-cta-men">
               Shop Men
             </Link>
           </div>
