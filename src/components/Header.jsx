@@ -46,7 +46,8 @@ export default function Header() {
 
   return (
     <>
-      <div className="topstrip">
+      {/* data-test-id values are stable selectors for Web Experimentation — don't rename casually */}
+      <div className="topstrip" data-test-id="promo-strip">
         <div className="shell topstrip-inner">
           <span>
             Free shipping over <strong>₹2,499</strong>
@@ -61,17 +62,19 @@ export default function Header() {
       <header
         className={`site-header ${isMobile ? 'site-header--mobile' : 'site-header--web'}`}
         data-viewport={isMobile ? 'mobile' : 'web'}
+        data-test-id="site-header"
       >
         <div className="shell header-row">
-          <Link to="/" className="logo" aria-label="AMPIO home">
+          <Link to="/" className="logo" aria-label="AMPIO home" data-test-id="header-logo">
             AMPIO<i className="dot" />
           </Link>
 
-          <nav className="nav">
+          <nav className="nav" data-test-id="header-nav">
             {NAV.map((entry) => (
               <div className="nav-item" key={entry.slug}>
                 <NavLink
                   to={`/c/${entry.slug}`}
+                  data-test-id={`header-nav-${entry.slug}`}
                   className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
                 >
                   {entry.label}
@@ -91,14 +94,14 @@ export default function Header() {
               </div>
             ))}
             <div className="nav-item">
-              <NavLink to="/c/sale" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
+              <NavLink to="/c/sale" data-test-id="header-nav-sale" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
                 Sale
               </NavLink>
             </div>
           </nav>
 
           <div className="header-tools">
-            <form className="search" onSubmit={onSearch} role="search">
+            <form className="search" onSubmit={onSearch} role="search" data-test-id="header-search">
               <SearchIcon width="16" height="16" />
               <input
                 type="search"
@@ -110,20 +113,25 @@ export default function Header() {
               />
             </form>
 
-            <Link to="/wishlist" className="icon-btn" aria-label="Wishlist">
+            <Link to="/wishlist" className="icon-btn" aria-label="Wishlist" data-test-id="header-wishlist">
               <HeartIcon />
               {wishlist.length > 0 && <span className="badge">{wishlist.length}</span>}
               Saved
             </Link>
 
-            <Link to="/cart" className="icon-btn" aria-label="Shopping bag">
+            <Link to="/cart" className="icon-btn" aria-label="Shopping bag" data-test-id="header-bag">
               <BagIcon />
               {totals.itemCount > 0 && <span className="badge">{totals.itemCount}</span>}
               Bag
             </Link>
 
             <div className="account-menu" ref={menuRef}>
-              <button type="button" className="icon-btn" onClick={() => setMenuOpen((o) => !o)}>
+              <button
+                type="button"
+                className="icon-btn"
+                onClick={() => setMenuOpen((o) => !o)}
+                data-test-id="header-account"
+              >
                 <UserIcon />
                 {user ? user.name.split(' ')[0] : 'Account'}
               </button>
