@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { CATEGORY_LABELS, NAV } from '../data/catalog';
 import { useStore } from '../store/StoreContext';
@@ -6,7 +6,21 @@ import { EVENTS, track } from '../lib/analytics';
 import { api } from '../mock/api';
 import { BagIcon, HeartIcon, SearchIcon, UserIcon } from './Icons';
 
+// same breakpoint as the stacked header in styles.css
+const MOBILE_QUERY = '(max-width: 760px)';
+
+const subscribeMobile = (onChange) => {
+  const mql = window.matchMedia(MOBILE_QUERY);
+  mql.addEventListener('change', onChange);
+  return () => mql.removeEventListener('change', onChange);
+};
+const getIsMobile = () => window.matchMedia(MOBILE_QUERY).matches;
+
+// exposes site-header--web / site-header--mobile so Web Experimentation can target each layout
+const useIsMobile = () => useSyncExternalStore(subscribeMobile, getIsMobile);
+
 export default function Header() {
+  const isMobile = useIsMobile();
   const { user, totals, wishlist, logout } = useStore();
   const [query, setQuery] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
@@ -44,7 +58,10 @@ export default function Header() {
         </div>
       </div>
 
-      <header className="site-header">
+      <header
+        className={`site-header ${isMobile ? 'site-header--mobile' : 'site-header--web'}`}
+        data-viewport={isMobile ? 'mobile' : 'web'}
+      >
         <div className="shell header-row">
           <Link to="/" className="logo" aria-label="AMPIO home">
             AMPIO<i className="dot" />
